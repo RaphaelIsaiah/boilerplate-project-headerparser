@@ -32,12 +32,11 @@
           Example Output
         </h2>
         <pre class="bg-gray-800 text-gray-100 p-4 rounded-lg overflow-x-auto">
-          <code id="output">
-  {
-    "ipaddress": "Your IP will appear here",
-    "language": "en-US,en;q=0.9",
-    "software": "Mozilla/5.0 (...)"
-  }</code>
+<code id="output">{
+  "ipaddress": "Your IP will appear here",
+  "language": "en-US,en;q=0.9",
+  "software": "Mozilla/5.0 (...)"
+}</code>
         </pre>
       </section>
     </main>
@@ -63,11 +62,25 @@
         .addEventListener("click", async (e) => {
           e.preventDefault();
           const output = document.getElementById("output");
-          output.textContent = "Loading..."; // Feedback while fetching
 
-          const response = await fetch("/api/whoami");
-          const data = await response.json();
-          output.textContent = JSON.stringify(data, null, 2);
+          // Preserve initial formatting during loading
+          output.innerHTML = `<span class="text-gray-400">{
+  "ipaddress": "Loading...",
+  "language": "Loading...",
+  "software": "Loading..."
+}</span>`;
+
+          try {
+            const response = await fetch("/api/whoami");
+            const data = await response.json();
+
+            // Format with consistent 2-space indentation
+            output.textContent = JSON.stringify(data, null, 2);
+          } catch (error) {
+            output.innerHTML = `<span class="text-red-400">{
+  "error": "${error.message}"
+}</span>`;
+          }
         });
     </script>
   </body>
