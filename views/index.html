@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#134e4a">
+    <meta name="theme-color" content="#134e4a" />
     <title>Request Header Parser</title>
     <link href="/output.css" rel="stylesheet" type="text/css" />
   </head>
@@ -47,7 +47,8 @@
         <p class="text-center text-gray-600">
           &copy; 2025 Raphael's Request Header Parser Microservice |
           <a
-            href="https://github.com/yourusername"
+            href="https://github.com/RaphaelIsaiah"
+            target="_blank"
             class="text-teal-600 hover:text-teal-800 transition"
           >
             GitHub
@@ -55,5 +56,19 @@
         </p>
       </div>
     </footer>
+
+    <script>
+      document
+        .querySelector('a[href="/api/whoami"]')
+        .addEventListener("click", async (e) => {
+          e.preventDefault();
+          const output = document.getElementById("output");
+          output.textContent = "Loading..."; // Feedback while fetching
+
+          const response = await fetch("/api/whoami");
+          const data = await response.json();
+          output.textContent = JSON.stringify(data, null, 2);
+        });
+    </script>
   </body>
 </html>
