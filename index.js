@@ -6,6 +6,7 @@ require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const app = express();
+const compression = require("compression");
 
 // --- Middleware ---
 
@@ -16,6 +17,11 @@ app.use(cors({ optionsSuccessStatus: 200 })); // some legacy browsers choke on 2
 
 // Enable trust proxy only in production (not locally)
 app.set("trust proxy", process.env.NODE_ENV === "production");
+
+// Compression (production only)
+if (process.env.NODE_ENV === "production") {
+  app.use(compression());
+}
 
 // Request logging
 app.use((req, res, next) => {
