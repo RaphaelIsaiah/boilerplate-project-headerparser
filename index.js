@@ -3,16 +3,33 @@
 
 // init project
 require("dotenv").config();
-var express = require("express");
-var app = express();
+const express = require("express");
+const path = require("path");
+const app = express();
+
+// --- Middleware ---
 
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
 // so that your API is remotely testable by FCC
-var cors = require("cors");
+const cors = require("cors");
 app.use(cors({ optionsSuccessStatus: 200 })); // some legacy browsers choke on 204
 
 // Enable trust proxy only in production (not locally)
 app.set("trust proxy", process.env.NODE_ENV === "production");
+
+// Request logging
+app.use((req, res, next) => {
+  console.log(
+    `${new Date().toISOString()} - ${req.method} ${req.path} (IP: ${req.ip})`
+  );
+  next();
+});
+
+// http://expressjs.com/en/starter/static-files.html
+// app.use(express.static("public"));
+
+// Serve static files first (CSS/JS/images)
+app.use(express.static(path.join(__dirname, "public")));
 
 // Rate limiting (Production-only)
 if (process.env.NODE_ENV === "production") {
@@ -27,13 +44,7 @@ if (process.env.NODE_ENV === "production") {
   app.use(["/api/whoami", "/api/whoami/"], limiter);
 }
 
-// http://expressjs.com/en/starter/static-files.html
-app.use(express.static("public"));
-
-// http://expressjs.com/en/starter/basic-routing.html
-app.get("/", function (req, res) {
-  res.sendFile(__dirname + "/views/index.html");
-});
+// --- API Route ---
 
 // Header Parser Microservice
 app.get(["/api/whoami/", "/api/whoami"], function (req, res) {
@@ -66,7 +77,17 @@ app.get(["/api/whoami/", "/api/whoami"], function (req, res) {
   });
 });
 
+// http://expressjs.com/en/starter/basic-routing.html
+// app.get("/", function (req, res) {
+//   res.sendFile(__dirname + "/views/index.html");
+// });
+
+// Frontend Route
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "index.html"));
+});
+
 // listen for requests :)
-var listener = app.listen(process.env.PORT || 3000, function () {
+const listener = app.listen(process.env.PORT || 3000, function () {
   console.log("Your app is listening on port " + listener.address().port);
 });
