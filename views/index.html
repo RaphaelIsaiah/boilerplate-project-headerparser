@@ -3,39 +3,57 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#134e4a">
     <title>Request Header Parser</title>
-    <link
-      rel="shortcut icon"
-      href="https://cdn.hyperdev.com/us-east-1%3A52a203ff-088b-420f-81be-45bf559d01b1%2Ffavicon.ico"
-      type="image/x-icon"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Roboto"
-      rel="stylesheet"
-      type="text/css"
-    />
     <link href="/output.css" rel="stylesheet" type="text/css" />
   </head>
-  <body>
-    <div class="container">
-      <h1>Request Header Parser Microservice</h1>
+  <body class="bg-gray-50 min-h-screen flex flex-col break-words">
+    <header class="bg-teal-600 text-white p-6 shadow-lg">
+      <h1 class="text-3xl font-bold text-center">
+        Request Header Parser Microservice
+      </h1>
+    </header>
 
-      <h2>Example Usage:</h2>
-      <p>
-        <a href="api/whoami">[base url]/api/whoami</a>
-      </p>
+    <main class="container mx-auto p-6 max-w-4xl flex-grow">
+      <section class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h2 class="text-2xl font-semibold mb-4 text-gray-800">Try It Out</h2>
+        <div class="space-y-4">
+          <a
+            href="/api/whoami"
+            class="block bg-teal-100 hover:bg-teal-200 text-teal-800 p-4 rounded-lg transition hover:shadow-md"
+          >
+            GET /api/whoami
+          </a>
+        </div>
+      </section>
 
-      <h2>Example Output:</h2>
-      <p>
-        <code
-          >{"ipaddress":"::ffff:159.20.14.100","language":"en-US,en;q=0.5",<br />"software":"Mozilla/5.0
-          (X11; Ubuntu; Linux x86_64; rv:50.0) Gecko/20100101
-          Firefox/50.0"}</code
-        >
-      </p>
-    </div>
-    <div class="footer">
-      <p>by <a href="https://www.freecodecamp.org">freeCodeCamp</a></p>
-    </div>
+      <section class="bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-2xl font-semibold mb-4 text-gray-800">
+          Example Output
+        </h2>
+        <pre class="bg-gray-800 text-gray-100 p-4 rounded-lg overflow-x-auto">
+          <code id="output">
+  {
+    "ipaddress": "Your IP will appear here",
+    "language": "en-US,en;q=0.9",
+    "software": "Mozilla/5.0 (...)"
+  }</code>
+        </pre>
+      </section>
+    </main>
+    <footer class="bg-gray-50 py-6">
+      <div class="container mx-auto max-w-4xl px-6">
+        <hr class="border-gray-200 mb-6" />
+        <p class="text-center text-gray-600">
+          &copy; 2025 Raphael's Request Header Parser Microservice |
+          <a
+            href="https://github.com/yourusername"
+            class="text-teal-600 hover:text-teal-800 transition"
+          >
+            GitHub
+          </a>
+        </p>
+      </div>
+    </footer>
   </body>
 </html>
