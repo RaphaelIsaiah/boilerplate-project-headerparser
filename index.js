@@ -15,26 +15,17 @@ app.use(cors({ optionsSuccessStatus: 200 })); // some legacy browsers choke on 2
 app.set("trust proxy", process.env.NODE_ENV === "production");
 
 // Rate limiting (Production-only)
-// if (process.env.NODE_ENV === "production") {
-//   const limiter = require("express-rate-limit")({
-//     windowMs: 15 * 60 * 1000, // 15 minutes
-//     max: 100, // Max 100 requests per window
-//     message: {
-//       error: "Too many requests. Try again in 15 minutes.",
-//     },
-//     headers: true, // Sends "Retry-After" header
-//   });
-//   app.use(["/api/whoami", "/api/whoami/"], limiter);
-// }
-
-// Remove the NODE_ENV check to test locally
-const limiter = require("express-rate-limit")({
-  windowMs: 2 * 60 * 1000, // 2 minutes
-  max: 5, // Lowered to 5 for testing
-  message: { error: "Too many requests. Try again in 2 minutes." },
-  headers: true,
-});
-app.use(["/api/whoami", "/api/whoami/"], limiter); // Apply to both routes
+if (process.env.NODE_ENV === "production") {
+  const limiter = require("express-rate-limit")({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // Max 100 requests per window
+    message: {
+      error: "Too many requests. Try again in 15 minutes.",
+    },
+    headers: true, // Sends "Retry-After" header
+  });
+  app.use(["/api/whoami", "/api/whoami/"], limiter);
+}
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static("public"));
@@ -43,11 +34,6 @@ app.use(express.static("public"));
 app.get("/", function (req, res) {
   res.sendFile(__dirname + "/views/index.html");
 });
-
-// your first API endpoint...
-// app.get("/api/hello", function (req, res) {
-//   res.json({ greeting: "hello API" });
-// });
 
 // Header Parser Microservice
 app.get(["/api/whoami/", "/api/whoami"], function (req, res) {
