@@ -24,12 +24,12 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // Request logging
-app.use((req, res, next) => {
-  console.log(
-    `${new Date().toISOString()} - ${req.method} ${req.path} (IP: ${req.ip})`
-  );
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log(
+//     `${new Date().toISOString()} - ${req.method} ${req.path} (IP: ${req.ip})`
+//   );
+//   next();
+// });
 
 // http://expressjs.com/en/starter/static-files.html
 // app.use(express.static("public"));
